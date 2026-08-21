@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>CRAFT</title>
+  <!-- SVG 파비콘을 data URI 로 인라인 했다. 별도 파일이 필요 없고,
+       벡터라 어떤 배율에서도 또렷하다. SVG 미지원 브라우저는 아래 .ico 로 떨어진다. -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%23111214%22%2F%3E%3Cpath%20d%3D%22M43.3%2020.7A16%2016%200%201%200%2043.3%2043.3%22%20fill%3D%22none%22%20stroke%3D%22%23e8e8ea%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%3C%2Fsvg%3E">
+  <link rel="alternate icon" href="TemplateData/favicon.ico">
+  <style>
+    /* Unity 기본 템플릿의 프레임(로고 · 하단 바 · 고정 픽셀 캔버스)을 전부 걷어냈다.
+       TemplateData/style.css 도 안 쓴다. 캔버스가 화면 전체다. */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #000;
+      font-family: -apple-system, "Segoe UI", "Malgun Gothic", sans-serif;
+    }
+
+    /* 여백 없이 뷰포트를 그대로 채운다. 레터박스도 없다.
+       비율은 브라우저 창을 따라가고, 게임 UI는 앵커 기반이라 알아서 맞춰진다. */
+    #unity-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+      background: #000;
+      border: 0;
+      outline: none;
+    }
+
+    /* ---------------------------------------------------------- 로딩 */
+    #loading {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      background: #000;
+      color: #e8e8ea;
+      z-index: 10;
+    }
+
+    #loading-title {
+      font-size: 22px;
+      letter-spacing: 0.34em;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    #bar-track {
+      width: min(320px, 60vw);
+      height: 3px;
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    #bar-fill {
+      width: 0%;
+      height: 100%;
+      background: #e8e8ea;
+      transition: width 0.18s ease-out;
+    }
+
+    #loading-pct {
+      font-size: 13px;
+      font-variant-numeric: tabular-nums;
+      opacity: 0.5;
+    }
+
+    #loading-note {
+      font-size: 12px;
+      opacity: 0.35;
+      max-width: 80vw;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ---------------------------------------------------------- 모바일 차단 */
+    #blocked {
+      position: fixed;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 0 32px;
+      background: #000;
+      color: #e8e8ea;
+      text-align: center;
+      z-index: 30;
+    }
+
+    #blocked-title {
+      font-size: 20px;
+      letter-spacing: 0.3em;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    #blocked-msg {
+      font-size: 14px;
+      line-height: 1.9;
+      opacity: 0.72;
+      max-width: 420px;
+    }
+
+    #blocked-sub {
+      font-size: 12px;
+      line-height: 1.7;
+      opacity: 0.4;
+      max-width: 420px;
+    }
+
+    #blocked-rule {
+      width: 40px;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    /* ---------------------------------------------------------- 경고 */
+    #unity-warning {
+      position: fixed;
+      left: 50%;
+      top: 16px;
+      transform: translateX(-50%);
+      z-index: 20;
+      display: none;
+      max-width: 90vw;
+    }
+
+    #unity-warning > div {
+      margin-bottom: 6px;
+      padding: 10px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="unity-canvas" tabindex="-1"></canvas>
+
+  <div id="unity-warning"></div>
+
+  <div id="blocked">
+    <div id="blocked-title">C R A F T</div>
+    <div id="blocked-rule"></div>
+    <div id="blocked-msg">
+      이 전시는 PC 환경에서만 이용할 수 있습니다.
+    </div>
+    <div id="blocked-sub">
+      키보드와 마우스로 매장을 둘러보는 방식이라<br>
+      모바일에서는 정상적으로 동작하지 않습니다.<br><br>
+      데스크톱 브라우저에서 다시 열어 주세요.
+    </div>
+  </div>
+
+  <div id="loading">
+    <div id="loading-title">C R A F T</div>
+    <div id="bar-track"><div id="bar-fill"></div></div>
+    <div id="loading-pct">0%</div>
+    <div id="loading-note">용량이 큰 전시라 처음 여는 데 몇 분 걸릴 수 있습니다.<br>창을 닫지 말고 기다려 주세요.</div>
+  </div>
+
+  <script>
+    var canvas  = document.querySelector("#unity-canvas");
+    var loading = document.querySelector("#loading");
+    var barFill = document.querySelector("#bar-fill");
+    var pctText = document.querySelector("#loading-pct");
+
+    function unityShowBanner(msg, type) {
+      var banner = document.querySelector("#unity-warning");
+      function refresh() {
+        banner.style.display = banner.children.length ? "block" : "none";
+      }
+      var div = document.createElement("div");
+      div.innerHTML = msg;
+      banner.appendChild(div);
+
+      if (type === "error") {
+        div.style.background = "#c0392b";
+        div.style.color = "#fff";
+      } else {
+        if (type === "warning") {
+          div.style.background = "#f1c40f";
+          div.style.color = "#222";
+        }
+        setTimeout(function () {
+          if (div.parentNode) banner.removeChild(div);
+          refresh();
+        }, 5000);
+      }
+      refresh();
+    }
+
+    // 이 빌드는 Brotli 압축(.br)이다. 서버가 Content-Encoding: br 을 붙여줘야
+    // 브라우저가 풀 수 있고, 그 설정은 같은 폴더의 _headers 파일에 들어있다.
+    // 압축을 끈 빌드로 바꾸면 아래 세 경로에서 .br 을 떼야 한다.
+    var buildUrl  = "Build";
+    var loaderUrl = buildUrl + "/build.loader.js";
+
+    var config = {
+      arguments: [],
+      dataUrl: buildUrl + "/build.data.br",
+      frameworkUrl: buildUrl + "/build.framework.js.br",
+      codeUrl: buildUrl + "/build.wasm.br",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "AllDayShoppingProject",
+      productName: "CRAFT",
+      productVersion: "0.2.0",
+      showBanner: unityShowBanner,
+
+      // 고해상도 화면에서 렌더 타깃이 2배로 커지면 프레임이 크게 떨어진다.
+      // 이 프로젝트는 에셋이 무거워서 1로 고정하는 편이 안전하다.
+      // 화면이 흐리게 느껴지면 이 줄을 지우면 원래 선명도로 돌아간다.
+      devicePixelRatio: 1,
+    };
+
+    // ---------------------------------------------------------- 모바일 차단
+    //
+    // 이 프로젝트는 WASD 이동 + 마우스 시야 조작이라 터치로는 조작 자체가 불가능하고,
+    // 에셋이 무거워서 모바일 브라우저는 메모리 한계로 로딩 도중 탭이 죽는다.
+    // 그래서 다운로드를 시작하기 전에 막는다 (수백 MB를 받게 두지 않는다).
+    //
+    // iPadOS 는 최근 사파리에서 데스크톱으로 위장하므로
+    // userAgent 뿐 아니라 터치 지원 + 거친 포인터 여부도 같이 본다.
+    var isMobile =
+      /Android|iPhone|iPad|iPod|webOS|BlackBerry|Windows Phone|Opera Mini|IEMobile/i
+        .test(navigator.userAgent) ||
+      (navigator.maxTouchPoints > 1 &&
+       window.matchMedia("(pointer: coarse)").matches);
+
+    if (isMobile) {
+      document.querySelector("#loading").style.display = "none";
+      document.querySelector("#blocked").style.display = "flex";
+      document.querySelector("#unity-canvas").style.display = "none";
+      throw new Error("mobile blocked");
+    }
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+
+    script.onload = function () {
+      createUnityInstance(canvas, config, function (progress) {
+        var pct = Math.round(progress * 100);
+        barFill.style.width = pct + "%";
+        pctText.textContent = pct + "%";
+      }).then(function (unityInstance) {
+        loading.style.display = "none";
+        canvas.focus();
+
+        // 창 크기가 바뀌면 렌더 타깃도 따라오게 한다
+        window.addEventListener("resize", function () {
+          canvas.width  = window.innerWidth;
+          canvas.height = window.innerHeight;
+        });
+      }).catch(function (message) {
+        loading.innerHTML =
+          '<div style="color:#e8e8ea;font-size:14px;text-align:center;line-height:1.7;padding:0 24px">' +
+          '불러오지 못했습니다.<br><span style="opacity:.5;font-size:12px">' + message + '</span></div>';
+      });
+    };
+
+    script.onerror = function () {
+      loading.innerHTML =
+        '<div style="color:#e8e8ea;font-size:14px;text-align:center">' +
+        'Build/build.loader.js 를 찾을 수 없습니다.</div>';
+    };
+
+    document.body.appendChild(script);
+  </script>
+</body>
+</html>

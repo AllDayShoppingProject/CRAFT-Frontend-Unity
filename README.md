@@ -1,4 +1,4 @@
-# C.R.A.F.T.
+# C.R.A.F.T. - Frontend - MCM 갤러리 전시
 
 ## 개발 환경
 

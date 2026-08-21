@@ -1,0 +1,28 @@
+<!--
+  빌드에서 엔진 코드 스트리핑(Player Settings > Strip Engine Code)에 지워지면
+  안 되는 클래스를 붙잡아 둔다.
+
+  왜 필요한가:
+    AvatarBuilder 는 GameObject.CreatePrimitive(PrimitiveType.Sphere / Capsule) 로
+    아바타 부위를 만든다. CreatePrimitive 는 종류에 맞는 콜라이더를 자동으로 붙이는데,
+    그 클래스 이름이 코드에 직접 나오지 않고 씬에도 존재하지 않는다.
+    스트리퍼는 정적 분석으로 "안 쓰인다"고 판단해 빌드에서 빼버리고,
+    실행 중 시착 모드에 들어가면 이렇게 터진다:
+
+      Can't add component because class 'SphereCollider' doesn't exist!
+
+    에디터는 스트리핑을 하지 않으므로 이 문제가 안 보인다. 빌드에서만 난다.
+
+  Capsule / Box / Mesh 도 같이 넣어둔다.
+    - Capsule : AvatarBuilder 의 몸통·팔·다리
+    - Box     : TryOnController 의 자리표시자 큐브, BagModelUtil.EnsureBoxCollider
+    - Mesh    : 가방 FBX 에 콜라이더가 들어있는 경우 대비
+-->
+<linker>
+  <assembly fullname="UnityEngine.PhysicsModule">
+    <type fullname="UnityEngine.SphereCollider" preserve="all"/>
+    <type fullname="UnityEngine.CapsuleCollider" preserve="all"/>
+    <type fullname="UnityEngine.BoxCollider" preserve="all"/>
+    <type fullname="UnityEngine.MeshCollider" preserve="all"/>
+  </assembly>
+</linker>

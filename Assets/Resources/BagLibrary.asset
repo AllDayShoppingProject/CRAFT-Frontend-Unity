@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d912e43072bb50f448e15bec17f73929, type: 3}
+  m_Name: BagLibrary
+  m_EditorClassIdentifier: Assembly-CSharp::BagLibrary
+  bagModels:
+  - productKey: p1
+    variants:
+    - code: black
+      displayName: "\uBE14\uB799"
+      hex: '#1C1C1E'
+      model: {fileID: 919132149155446097, guid: 9249d44af8bfdf94c858d442585f8b1a, type: 3}
+      material: {fileID: 2100000, guid: 267fe089190451444b53fba8f33b1204, type: 2}
+    - code: cognac
+      displayName: "\uCF54\uB0D1"
+      hex: '#8C5A2B'
+      model: {fileID: 919132149155446097, guid: 7a715d0433548b54b94fda9add4b9938, type: 3}
+      material: {fileID: 2100000, guid: f9dfbe7429e1009499008e44544b4e7b, type: 2}
+    - code: green
+      displayName: "\uADF8\uB9B0"
+      hex: '#2F4A38'
+      model: {fileID: 919132149155446097, guid: f0dbd79785dbcfd44aaa9822905fe272, type: 3}
+      material: {fileID: 2100000, guid: 89dcd51be9f5f86489a1ae0d477f38f8, type: 2}
+    prefab: {fileID: 919132149155446097, guid: 9249d44af8bfdf94c858d442585f8b1a, type: 3}
+    rotationEuler: {x: 270, y: 0, z: 0}
+    heightMultiplier: 1
+    anchorPosition: {x: -0.0006276654, y: 0.8261716, z: 0.08221215}
+    gripPoint: {x: 0.49999997, y: 0.9814371, z: 0.48746604}
+    holdRotation: {x: 270, y: -0, z: 0}
+  - productKey: p2
+    variants:
+    - code: lotus
+      displayName: "\uB85C\uD130\uC2A4"
+      hex: '#D9C7C0'
+      model: {fileID: 919132149155446097, guid: bf9328fd6130f8644845871fe0c6c57d, type: 3}
+      material: {fileID: 2100000, guid: 41198e4e63c107a4dacf3a374078b6a9, type: 2}
+    prefab: {fileID: 919132149155446097, guid: bf9328fd6130f8644845871fe0c6c57d, type: 3}
+    rotationEuler: {x: 270, y: 0, z: 0}
+    heightMultiplier: 1
+    anchorPosition: {x: 0.14665273, y: 0.52909124, z: 0.0058475127}
+    gripPoint: {x: 0.49186543, y: 0.9000001, z: 0.5004256}
+    holdRotation: {x: 270, y: 23.545092, z: 0}
+  - productKey: p3
+    variants:
+    - code: black
+      displayName: "\uBE14\uB799"
+      hex: '#1C1C1E'
+      model: {fileID: 919132149155446097, guid: e909ffd404d0aea41a89294a52972517, type: 3}
+      material: {fileID: 2100000, guid: 75060bcfdbe01b149b77bb5773309494, type: 2}
+    prefab: {fileID: 919132149155446097, guid: e909ffd404d0aea41a89294a52972517, type: 3}
+    rotationEuler: {x: 270, y: 0, z: 0}
+    heightMultiplier: 1
+    anchorPosition: {x: 0.12214174, y: 0.51466966, z: 0}
+    gripPoint: {x: 0.44345725, y: 0.88749987, z: 0.49999982}
+    holdRotation: {x: 270, y: 30.686012, z: 0}
+  - productKey: p4
+    variants:
+    - code: black
+      displayName: "\uBE14\uB799"
+      hex: '#1C1C1E'
+      model: {fileID: 919132149155446097, guid: 8db9bb461bbf287419fed059de0edf07, type: 3}
+      material: {fileID: 2100000, guid: 8962f7a27847cc8419788580c861735a, type: 2}
+    - code: cognac
+      displayName: "\uCF54\uB0D1"
+      hex: '#8C5A2B'
+      model: {fileID: 919132149155446097, guid: 55d2ce694a3973b49a705e872dce2e4e, type: 3}
+      material: {fileID: 2100000, guid: 10746ee11a49b61498855d17bc8941af, type: 2}
+    - code: white
+      displayName: "\uD654\uC774\uD2B8"
+      hex: '#F2F0EA'
+      model: {fileID: 919132149155446097, guid: 9ab43112cf7b5b14a9b5ed7d76f6cf1b, type: 3}
+      material: {fileID: 2100000, guid: 01d2dc42505e3fc4f9ca52110f8f10ca, type: 2}
+    prefab: {fileID: 919132149155446097, guid: 8db9bb461bbf287419fed059de0edf07, type: 3}
+    rotationEuler: {x: 270, y: 0, z: 0}
+    heightMultiplier: 1
+    anchorPosition: {x: 0.113911085, y: 0.75947356, z: 0.013996336}
+    gripPoint: {x: 0.50000125, y: 0.98631996, z: 0.5000003}
+    holdRotation: {x: 271.2027, y: 1.3322501, z: 60.323322}
+  - productKey: p5
+    variants:
+    - code: cognac
+      displayName: "\uCF54\uB0D1"
+      hex: '#8C5A2B'
+      model: {fileID: 919132149155446097, guid: 3bde90b751f564445955e004a4c71916, type: 3}
+      material: {fileID: 2100000, guid: be229b6df58547145894ebba48e336d0, type: 2}
+    prefab: {fileID: 919132149155446097, guid: 3bde90b751f564445955e004a4c71916, type: 3}
+    rotationEuler: {x: 270, y: 0, z: 0}
+    heightMultiplier: 1
+    anchorPosition: {x: 0.13403384, y: 0.5479277, z: -0.0011040445}
+    gripPoint: {x: 0.5000018, y: 1.141718, z: 0.49976844}
+    holdRotation: {x: 270.30518, y: 5.236417, z: 49.423496}
+  - productKey: p6
+    variants:
+    - code: cognac
+      displayName: "\uCF54\uB0D1"
+      hex: '#8C5A2B'
+      model: {fileID: 919132149155446097, guid: 0d7821d893b3bbd43bb33af6c0d8cf00, type: 3}
+      material: {fileID: 2100000, guid: 95f26422f6173b24dab103584d6655b2, type: 2}
+    prefab: {fileID: 919132149155446097, guid: 0d7821d893b3bbd43bb33af6c0d8cf00, type: 3}
+    rotationEuler: {x: 270, y: 0, z: 0}
+    heightMultiplier: 1
+    anchorPosition: {x: 0.14294772, y: 0.52363104, z: 0.02}
+    gripPoint: {x: 0.46286595, y: 0.9437499, z: 0.50000054}
+    holdRotation: {x: 270, y: 226.22246, z: 0}

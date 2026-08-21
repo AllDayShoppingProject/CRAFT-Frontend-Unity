@@ -1,0 +1,53 @@
+
+/Assets/Bags/
+/Assets/Resources/Fonts/Pretendard-1.3.9/
+
+# ---------------------------------------------------------------- Unity 생성물
+# 전부 프로젝트를 열면 자동으로 다시 만들어진다. 절대 올리지 말 것.
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Asset Store 다운로드 캐시
+/[Aa]ssets/AssetStoreTools*
+
+# ---------------------------------------------------------------- IDE / 빌드
+/.vs/
+/.idea/
+/.gradle/
+ExportedObj/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# ---------------------------------------------------------------- 크래시 리포트
+sysinfo.txt
+crashlytics-build.properties
+*.stackdump
+
+# ---------------------------------------------------------------- OS
+.DS_Store
+Thumbs.db
+
+# ---------------------------------------------------------------- Plastic SCM
+# git과 같은 폴더에서 같이 쓸 때 서로의 메타데이터를 안 건드리게
+/.plastic/
+plastic.workspace
+/Ver1/
+*.private.0

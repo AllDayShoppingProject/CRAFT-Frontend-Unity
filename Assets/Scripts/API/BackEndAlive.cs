@@ -4,25 +4,31 @@ using UnityEngine.Networking;
 
 public class BackEndAlive : MonoBehaviour
 {
-    private const string serverUrl=ProjectConfig.API_BASE_URL;
-
     private void Start()
     {
-        StartCoroutine(PingBackendThreeTimes());
+        StartCoroutine(SelectBackend());
     }
 
-    private IEnumerator PingBackendThreeTimes()
+    private IEnumerator SelectBackend()
     {
-        for (int i = 0; i < 3; i++)
+        foreach (string url in ProjectConfig.API_BASE_URLS)
         {
-            using (UnityWebRequest request = UnityWebRequest.Get(
-                $"{serverUrl}/products?launch_status=dummy"))
+            using (UnityWebRequest request =
+                   UnityWebRequest.Get($"{url}/products?launch_status=dummy"))
             {
-                yield return request.SendWebRequest();
-            }
+                request.timeout = 5;
 
-            if (i < 2)
-                yield return new WaitForSeconds(10f);
+                yield return request.SendWebRequest();
+
+                if (request.result == UnityWebRequest.Result.Success)
+                {
+                    Debug.Log(url);
+                    ProjectConfig.SetActiveApiBaseUrl(url);
+                    yield break;
+                }
+            }
         }
+
+        // 둘 다 실패하면 아무것도 하지 않고 종료
     }
 }

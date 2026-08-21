@@ -7,7 +7,7 @@ using UnityEngine.Networking;
 
 public class GazeAPIClient : MonoBehaviour
 {
-    private const string API_URL = ProjectConfig.API_BASE_URL;
+    private string API_URL = ProjectConfig.API_BASE_URL;
 
     [SerializeField] private GazeLogger gazeLogger;
     [SerializeField] private GazeTracker gazeTracker;

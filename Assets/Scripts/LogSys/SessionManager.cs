@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 
 public class SessionManager : MonoBehaviour
 {
-    private const string ApiUrl = ProjectConfig.API_BASE_URL;
+    private string ApiUrl = ProjectConfig.API_BASE_URL;
 
     /// 세션 요청과 session_start meta가 같은 값을 써야 서버 기록과 이벤트 로그가 어긋나지 않는다.
     private static string DeviceType =>
